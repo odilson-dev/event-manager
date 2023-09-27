@@ -2,16 +2,7 @@ require 'csv'
 puts 'EventManager initialized.'
 
 def clean_zipcode(zipcode)
-
-    if zipcode.nil?
-        "00000"
-    elsif zipcode.size > 5
-        zipcode[0..4] 
-    elsif zipcode.size < 5
-        zipcode = zipcode.rjust(5, "0") 
-    else
-        zipcode
-    end
+    zipcode.to_s.rjust(5, "0")[0..4]
 end
 
 contents = CSV.open("event_attendees.csv", 
@@ -20,9 +11,8 @@ contents = CSV.open("event_attendees.csv",
 
 contents.each do |row|
     name = row[:first_name]
-    zipcode = row[:zipcode]
     
-    zipcode = clean_zipcode(zipcode)
+    zipcode = clean_zipcode(row[:zipcode])
     
     puts "#{name} #{zipcode}"
 end
