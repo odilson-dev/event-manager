@@ -59,6 +59,20 @@ def time_targeting(contents)
   end
     times.tally.sort {|a1,a2| a2[1]<=>a1[1]}
 end
+def day_of_the_week_targeting(contents)
+  array_of_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"]
+  array_of_days = []
+  contents.each do |row|
+    registration_date_and_time = row[:regdate].split(" ")
+    registration_date = registration_date_and_time[0]
+    Date.strptime(registration_date.gsub("/", "-"), '%m-%d-%Y').wday.class
+  
+    array_of_days << array_of_week[Date.strptime(registration_date.gsub("/", "-"), '%m-%d-%Y').wday]
+
+  end
+
+  array_of_days.tally
+end
 
 puts 'EventManager initialized.'
 
@@ -84,4 +98,5 @@ erb_template = ERB.new template_letter
 
 # end
 
-p time_targeting(contents)
+
+p day_of_the_week_targeting(contents)
