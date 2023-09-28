@@ -1,6 +1,7 @@
 require 'csv'
 require 'google/apis/civicinfo_v2'
 require 'erb'
+require 'time'
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
@@ -47,6 +48,18 @@ def clean_phone_number(phone_number)
     end
 end
 
+def time_targeting(contents)
+  numbers = ("0".."9").to_a
+  times = []
+  contents.each do |row|
+      registration_date_and_time = row[:regdate].split(" ")
+      registration_time = registration_date_and_time[1]
+      
+      times << registration_time[0, 2] 
+  end
+    times.tally.sort {|a1,a2| a2[1]<=>a1[1]}
+end
+
 puts 'EventManager initialized.'
 
 contents = CSV.open(
@@ -70,11 +83,5 @@ erb_template = ERB.new template_letter
 #   save_thank_you_letter(row[:id], form_letter)
 
 # end
-numbers = ("0".."9").to_a
-contents.each do |row|
-    phone_number = clean_phone_number(row[:homephone])
-    
- 
-    puts "#{phone_number} length => #{phone_number.count('0123456789')}"
-  
-  end
+
+p time_targeting(contents)
