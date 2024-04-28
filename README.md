@@ -6,4 +6,4 @@ Please note this tutorial has been adapted from The Turing School’s and Jump S
 https://www.theodinproject.com/lessons/ruby-event-manager
 
 # GitHub Repo
-https://github.com/odilsonjs/Event-manager
+https://github.com/odilson-dev/Event-manager
